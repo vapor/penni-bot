@@ -1,0 +1,40 @@
+name: mmbm-tests
+on:
+  pull_request: { types: [opened, reopened, synchronize, ready_for_review] }
+  push: { branches: [main] }
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    container: swift:6.0-noble
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install zstd
+        run: |
+          apt-get update -y
+          apt-get install -y zstd
+
+      - name: Restore .build
+        id: "restore-build"
+        uses: actions/cache/restore@v4
+        with:
+          path: .build
+          key: "swiftpm-build-${{ runner.os }}-${{ github.event.pull_request.base.sha || github.event.after }}"
+          restore-keys: "swiftpm-build-${{ runner.os }}-"
+
+      - name: Build package
+        run: swift build --build-tests --enable-code-coverage
+
+      - name: Cache .build
+        # if: steps.restore-build.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .build
+          key: "swiftpm-build-${{ runner.os }}-${{ github.event.pull_request.base.sha || github.event.after }}"
+
+      - name: Run unit tests
+        run: swift test --skip-build --enable-code-coverage
+
+      # Process the code coverage report, etc...
