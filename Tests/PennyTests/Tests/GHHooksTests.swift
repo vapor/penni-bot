@@ -781,6 +781,17 @@ actor GHHooksTests {
     }
 
     @Test
+    func findComparisonRange() async throws {
+        let context = try makeContext(
+            eventName: .release,
+            eventKey: "release1"
+        )
+        let handler = try ReleaseReporter(context: context)
+        let comparisonRange = handler.findComparisonRange()
+        #expect(comparisonRange == "1.43.0...1.43.1")
+    }
+
+    @Test
     func handleIssueEvent1() async throws {
         try await handleEvent(key: "issue1", eventName: .issues, expect: .noResponse)
     }

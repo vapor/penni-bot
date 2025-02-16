@@ -33,7 +33,6 @@
   "errorLens.statusBarIconsEnabled": true,
   "errorLens.scrollbarHackEnabled": true,
   "errorLens.delayMode": "debounce",
-  "errorLens.delay": 500,
   "errorLens.editorHoverPartsEnabled": {
     "messageEnabled": true,
     "sourceCodeEnabled": true,
@@ -60,7 +59,6 @@
     }
   },
   "terminal.integrated.scrollback": 10000,
-  "swift.buildArguments": ["--force-resolved-versions"],
   "swift.additionalTestArguments": ["--disable-xctest"],
   "[yaml]": {
     "editor.insertSpaces": true,

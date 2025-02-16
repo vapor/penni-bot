@@ -24,7 +24,7 @@ jobs:
           apt-get install -y zstd
 
       - name: Restore .build
-        if: ${{ !(github.run_attempt > 1) }} # Because maybe the cache is causing issues
+        if: ${{ runner.debug != '1' }}
         id: "restore-cache"
         uses: actions/cache/restore@v4
         with:

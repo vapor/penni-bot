@@ -135,6 +135,7 @@ struct ReleaseMaker {
             if let (_, version) = SemanticVersion.fromGitHubTag(release.tagName) {
                 return (release, version)
             }
+            logger.warning("Could not parse tag", metadata: ["tag": .string(release.tagName)])
             return nil
         }
     }
